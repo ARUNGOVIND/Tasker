@@ -30,7 +30,7 @@ router.post('/tasks',auth,async (req,res)=>{
 
     const tasks = new Task({
         ...req.body,
-        owner:req.user.id
+        owner: req.user._id
     })
     
     try {
@@ -63,7 +63,7 @@ router.get('/tasks',auth,async (req,res)=>{
                 skip: parseInt(req.query.skip),
                 sort
             }
-        }).execPopulate()
+        })
         res.status(201).send(req.user.tasks)
     } catch (e) {
         res.status(500).send(e)   
@@ -95,7 +95,5 @@ router.delete('/tasks/:id',auth,async (req,res)=>{
         res.status(500).send(e)   
     }
 })
-
-
 
 module.exports = router
