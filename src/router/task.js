@@ -61,14 +61,14 @@ router.get('/tasks',auth,async (req,res)=>{
             path: 'tasks',
             match,
             options: {
-                limit: parseInt(req.query.limit),
-                skip: parseInt(req.query.skip),
+                limit:2,
+                skip: 0,
                 sort
             }
         })
         res.status(201).send(req.user.tasks)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(500).send(e)
     }
 })
 
