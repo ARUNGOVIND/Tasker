@@ -2,7 +2,7 @@ const request = require('supertest')
 const Task = require('../src/models/task')
 const app = require('../src/app')
 
-const {useroneid,userone,setupDB,usertwo,usertwoid,taskone,tasktwo,taskthree}= require('./fixtures/db')
+const {useroneid,userone,setupDB,usertwo,usertwoid,taskone,tasktwo,taskthree,taskfour}= require('./fixtures/db')
 
 beforeEach(setupDB)
 
@@ -26,8 +26,7 @@ test('Fetch user task',async()=>{
         .set('Authorization', `Bearer ${userone.tokens[0].token}`)
         .send()
         .expect(201)
-    expect(response.body.length).toEqual(2)
-    console.log(response.body)
+    expect(response.body.length).toEqual(3)
 })
 
 test('Should not delete tasks of other user ',async()=>{
@@ -64,3 +63,13 @@ test('Sort tas by createdAt',async()=>{
         .send()
         .expect(201)
 })
+
+test('limit 2',async()=>{
+    const response = await request(app)
+        .get('/tasks?limit=2')
+        .set('Authorization', `Bearer ${userone.tokens[0].token}`)
+        .send()
+        .expect(201)
+    console.log(response.body)
+})
+
